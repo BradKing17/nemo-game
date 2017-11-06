@@ -64,9 +64,9 @@ The NemoGame class will be used to control the flow of the game and is responsib
 \
 Initialising the Game Class
 ------
-Before the game can run we need to perform initialisation of the game. The first stage is to initialise the low-level graphics API. This is simple enough to do. Head on over to the PairsGame.cpp file you created. 
+Before the game can run we need to perform initialisation of the game. The first stage is to initialise the low-level graphics API. This is simple enough to do. Head on over to the NemoGame.cpp file you created. 
 
-Inside the "PairGames::Init" function add the following if statement
+Inside the "NemoGame::Init" function add the following if statement
 
 ~~~C++
 // initialises the graphics API, check to make sure it was a success
