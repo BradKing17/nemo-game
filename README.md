@@ -37,7 +37,7 @@ The Dawn of Our Game
 ------
 What better place to start a story then at the beginning? To aid with the creation of the game, a prebuilt solution has been provided on GitHub. In this solution the build targets and the library has already been linked, however, there is no game present just an empty main function. 
 
-You can obtain the source code via the following link: https://cfds
+You can obtain the source code via the following link: https://classroom.github.com/a/Gj3I-KPU
 
 Start by cloning the repository and opening the solution in visual studio 2017... You should find the project builds and a single source file "main.cpp" has been included. Before we can "run" our game we need to create it. 
 
