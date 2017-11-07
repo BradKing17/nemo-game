@@ -47,6 +47,7 @@ NemoGame::~NemoGame()
 */
 bool NemoGame::init()
 {
+
 	// input handling functions
 	key_callback_id = inputs->addCallbackFnc(
 		ASGE::E_KEY, &NemoGame::keyHandler, this);

@@ -200,7 +200,7 @@ renderer->renderSprite(*sprite);
 
 Before rendering the sprites, it is important to consider when they should be rendered. The game has two states already included in it, one for the menu and the other for the actual gameplay. The background should be shown in both states but we only want the Clownfish to show when the game is running. Inside the render function, render the background before the menu checks. As the render functions accept references to sprites and they are being stored as pointers, they first need to be dereferenced before the address of reference can take place. This is why the * is neusededed. 
 ~~~C++
-void PairsGame::render(const ASGE::GameTime &us)
+void NemoGame::render(const ASGE::GameTime &us)
 {
     // use the default game font
     renderer->setFont(0);
@@ -409,7 +409,7 @@ A function already exists in the game as a starting point. You will need to crea
 
 ~~~C++
 // function returns true if x and y reside within the sprite
-bool PairsGame::isInside(const ASGE::Sprite* sprite, float x, float y) const
+bool NemoGame::isInside(const ASGE::Sprite* sprite, float x, float y) const
 {
 
 }
