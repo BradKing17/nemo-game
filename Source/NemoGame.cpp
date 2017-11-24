@@ -14,6 +14,9 @@
 */
 NemoGame::NemoGame()
 {
+	game_width = 1024;
+	game_height = 768;
+	toggleFPS();
 }
 
 /**
@@ -47,6 +50,24 @@ NemoGame::~NemoGame()
 */
 bool NemoGame::init()
 {
+	if (!initAPI())
+	{
+		return false;
+	}
+
+	renderer->setSpriteMode(ASGE::SpriteSortMode::IMMEDIATE);
+	renderer->setWindowTitle("Nemo Game");
+
+	background = renderer->createRawSprite();
+	background->loadTexture(".\\Resources\\Textures\\background.jpg");
+	background->width(1024);
+	background->height(768);
+
+	clownfish = renderer->createRawSprite();
+	clownfish->loadTexture(".\\Resources\\Textures\\clown-fish-icon.png");
+	clownfish->width(64);
+	clownfish->height(64);
+	clownfish->setFlipFlags(ASGE::Sprite::FlipFlags::FLIP_X);
 
 	// input handling functions
 	key_callback_id = inputs->addCallbackFnc(
@@ -73,6 +94,28 @@ void NemoGame::keyHandler(const ASGE::SharedEventData data)
 {
 	auto key = static_cast<const ASGE::KeyEvent*>(data.get());
 	
+	if (key->key == ASGE::KEYS::KEY_RIGHT &&
+		key->action == ASGE::KEYS::KEY_RELEASED)
+	{
+		menu_option = 1 - menu_option;
+	}
+	if (key->key == ASGE::KEYS::KEY_LEFT &&
+		key->action == ASGE::KEYS::KEY_RELEASED)
+	{
+		menu_option = 1 - menu_option;
+	}
+	if (key->key == ASGE::KEYS::KEY_ENTER &&
+		key->action == ASGE::KEYS::KEY_RELEASED)
+	{
+		if (menu_option == 1)
+		{
+			signalExit();
+		}
+		else
+		{
+			in_menu = false;
+		}
+	}
 	if (key->key == ASGE::KEYS::KEY_ESCAPE)
 	{
 		signalExit();
@@ -125,7 +168,18 @@ void NemoGame::update(const ASGE::GameTime& us)
 {
 	if (!in_menu)
 	{
+		auto x_pos = clownfish->xPos();
 
+		x_pos += 500 * (us.delta_time.count() / 1000.f);
+
+		clownfish->xPos(x_pos);
+
+		if (x_pos == game_width)
+		{
+			x_pos = 0;
+
+			clownfish->xPos(x_pos);
+		}
 	}
 }
 
@@ -140,15 +194,23 @@ void NemoGame::render(const ASGE::GameTime &)
 {
 	renderer->setFont(0);
 
+	renderer->renderSprite(*background);
+
 	if (in_menu)
 	{
 		renderer->renderText(
 			"FISH ARE FRIENDS NOT FOOD \n SELECT FOOD TO START", 
 			150, 150, 1.0, ASGE::COLOURS::DARKORANGE);
+
+		renderer->renderText(menu_option == 0 ? ">FOOD" : "FOOD",
+			250, 650, 1.0, ASGE::COLOURS::DARKORANGE);
+
+		renderer->renderText(menu_option == 1 ? ">FRIENDS" : "FRIENDS",
+			450, 650, 1.0, ASGE::COLOURS::DARKORANGE);
 	}
 	else
 	{
-
+		renderer->renderSprite(*clownfish);
 	}
 	
 }

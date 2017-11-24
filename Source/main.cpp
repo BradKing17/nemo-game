@@ -8,5 +8,10 @@ int WINAPI WinMain(
 	HINSTANCE hPrevInstance, 
 	PSTR pScmdline, int iCmdshow)
 {
-
+	NemoGame game;
+	if (game.init())
+	{
+		return game.run();
+	}
+	return -1;
 }
