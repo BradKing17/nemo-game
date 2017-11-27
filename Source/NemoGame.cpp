@@ -141,6 +141,7 @@ void NemoGame::clickHandler(const ASGE::SharedEventData data)
 
 	if (isInside(clownfish, x_pos, y_pos))
 	{
+		spawn();
 		score++;
 	}
 }
@@ -154,7 +155,12 @@ void NemoGame::clickHandler(const ASGE::SharedEventData data)
 */
 void NemoGame::spawn()
 {
+	srand(time(NULL));
+	auto x_pos = (rand() % 1024) + 1;
+	auto y_pos = (rand() % 768) + 1;
 
+	clownfish->xPos(x_pos);
+	clownfish->yPos(y_pos);
 }
 
 /**
@@ -174,11 +180,9 @@ void NemoGame::update(const ASGE::GameTime& us)
 
 		clownfish->xPos(x_pos);
 
-		if (x_pos == game_width)
+		if (x_pos >= game_width)
 		{
-			x_pos = 0;
-
-			clownfish->xPos(x_pos);
+			clownfish->xPos(0);
 		}
 	}
 }
@@ -192,6 +196,7 @@ void NemoGame::update(const ASGE::GameTime& us)
 */
 void NemoGame::render(const ASGE::GameTime &)
 {
+	
 	renderer->setFont(0);
 
 	renderer->renderSprite(*background);
@@ -211,6 +216,9 @@ void NemoGame::render(const ASGE::GameTime &)
 	else
 	{
 		renderer->renderSprite(*clownfish);
+
+		std::string score_str = "SCORE: " + std::to_string(score);
+		renderer->renderText(score_str.c_str(), 850, 25, 1.0, ASGE::COLOURS::DARKORANGE);
 	}
 	
 }
@@ -227,5 +235,18 @@ void NemoGame::render(const ASGE::GameTime &)
 */
 bool NemoGame::isInside(const ASGE::Sprite* sprite, float x, float y) const
 {
-	return false;
+	auto sprite_min_x = sprite->xPos();
+	auto sprite_max_x = sprite->xPos() + sprite->width();
+	auto sprite_min_y = sprite->yPos();
+	auto sprite_max_y = sprite->yPos() + sprite->height();
+
+	if((sprite_min_x <= x && x <= sprite_max_x) 
+		&& (sprite_min_y <= y && y <= sprite_max_y))
+	{
+		return true;	
+	}
+	else
+	{
+		return false;
+	}
 }
