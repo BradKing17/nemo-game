@@ -17,6 +17,7 @@ NemoGame::NemoGame()
 	game_width = 1024;
 	game_height = 768;
 	toggleFPS();
+	srand(time(NULL));
 }
 
 /**
@@ -99,12 +100,12 @@ void NemoGame::keyHandler(const ASGE::SharedEventData data)
 	{
 		menu_option = 1 - menu_option;
 	}
-	if (key->key == ASGE::KEYS::KEY_LEFT &&
+	else if (key->key == ASGE::KEYS::KEY_LEFT &&
 		key->action == ASGE::KEYS::KEY_RELEASED)
 	{
 		menu_option = 1 - menu_option;
 	}
-	if (key->key == ASGE::KEYS::KEY_ENTER &&
+	else if (key->key == ASGE::KEYS::KEY_ENTER &&
 		key->action == ASGE::KEYS::KEY_RELEASED)
 	{
 		if (menu_option == 1)
@@ -116,7 +117,7 @@ void NemoGame::keyHandler(const ASGE::SharedEventData data)
 			in_menu = false;
 		}
 	}
-	if (key->key == ASGE::KEYS::KEY_ESCAPE)
+	else if (key->key == ASGE::KEYS::KEY_ESCAPE)
 	{
 		signalExit();
 	}
@@ -155,9 +156,8 @@ void NemoGame::clickHandler(const ASGE::SharedEventData data)
 */
 void NemoGame::spawn()
 {
-	srand(time(NULL));
-	auto x_pos = (rand() % 1024) + 1;
-	auto y_pos = (rand() % 768) + 1;
+	auto x_pos = (rand() % game_width) + 1;
+	auto y_pos = (rand() % game_height) + 1;
 
 	clownfish->xPos(x_pos);
 	clownfish->yPos(y_pos);
@@ -240,8 +240,8 @@ bool NemoGame::isInside(const ASGE::Sprite* sprite, float x, float y) const
 	auto sprite_min_y = sprite->yPos();
 	auto sprite_max_y = sprite->yPos() + sprite->height();
 
-	if((sprite_min_x <= x && x <= sprite_max_x) 
-		&& (sprite_min_y <= y && y <= sprite_max_y))
+	if((sprite_min_x <= x && x <= sprite_max_x) && 
+	   (sprite_min_y <= y && y <= sprite_max_y))
 	{
 		return true;	
 	}
